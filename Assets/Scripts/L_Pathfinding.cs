@@ -40,9 +40,12 @@ public abstract class L_Pathfinding
         _endY = endY;
         _area = area;
         _timeBetweenLoop = timeBetweenLoop;
+
+        _startingNode._state = L_NodeStates.START;
+        _endingNode._state = L_NodeStates.END;
     }
 
-    public abstract IEnumerator SearchPath();
+    public abstract IEnumerator SearchPath(bool lookAlgorithmSearching);
 
     protected abstract bool Algorithme();
 

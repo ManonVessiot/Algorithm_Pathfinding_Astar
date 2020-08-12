@@ -10,22 +10,24 @@ public class L_Pathfinding_Astar : L_Pathfinding
 
     L_Node _current;
 
-    int _loop;
 
     public L_Pathfinding_Astar(int startX, int startY, int endX, int endY, L_Grid area, float timeBetweenLoop) : base(startX, startY, endX, endY, area, timeBetweenLoop)
     {
         _open.Add(_startingNode);
-        _loop = 0;
     }
 
-    public override IEnumerator SearchPath()
+    public override IEnumerator SearchPath(bool lookAlgorithmSearching)
     {
         _searching = true;
+        // int _loop = 0;
         while (_searching)
         {
-            _loop++;
+            // _loop++;
             _found = Algorithme();
-            yield return new WaitForSeconds(_timeBetweenLoop);
+            if (lookAlgorithmSearching)
+            {
+                yield return new WaitForSeconds(_timeBetweenLoop);
+            }
         }
     }
 

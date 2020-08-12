@@ -14,15 +14,17 @@ public class B_Pathfinding_Grid : MonoBehaviour
 
     public L_Pathfinding_Astar _pathfinding;
 
+    public bool _lookAlgorithmSearching = true;
+
     [Range(0, 1)]
     public float _timeBetweenLoop = 0.5f;
     [Range(0, 1)]
     public float _epsilon = 0.1f;
-    public bool _autoBuild = false;
 
     L_Grid _area;
+    bool _searching = true;
 
-    bool _searching = false;
+    Coroutine currentSearch;
 
     public void BuildSimpleArea()
     {
@@ -51,7 +53,18 @@ public class B_Pathfinding_Grid : MonoBehaviour
             _start.localScale = new Vector3(_buildGrid._nodeWorldSize / 2f, 2 * _buildGrid._nodeWorldSize, _buildGrid._nodeWorldSize / 2f);
             _end.localScale = new Vector3(_buildGrid._nodeWorldSize / 2f, 2 * _buildGrid._nodeWorldSize, _buildGrid._nodeWorldSize / 2f);
 
-            _buildGrid._pathPoints = new List<Vector3>{ _start.position, _end.position };
+            _buildGrid._pathPoints = new List<Vector3>();
+            int[] startingNodePose = _buildGrid.GetNodeOfWorldPostion(_start.position);
+            int[] endingNodePose = _buildGrid.GetNodeOfWorldPostion(_end.position);
+
+            if (_area._grid[startingNodePose[0], startingNodePose[1]]._state != L_NodeStates.OBSTACLE)
+            {
+                _buildGrid._pathPoints.Add(_start.position);
+            }
+            if (_area._grid[endingNodePose[0], endingNodePose[1]]._state != L_NodeStates.OBSTACLE && (endingNodePose[0] != startingNodePose[0] || endingNodePose[1] != startingNodePose[1]))
+            {
+                _buildGrid._pathPoints.Add(_end.position);
+            }
         }
     }
 
@@ -66,11 +79,21 @@ public class B_Pathfinding_Grid : MonoBehaviour
             int[] end = _buildGrid.GetNodeOfWorldPostion(_buildGrid._pathPoints[1]);
             _pathfinding = new L_Pathfinding_Astar(start[0], start[1], end[0], end[1], _area, _timeBetweenLoop);
 
-            yield return _pathfinding.SearchPath();
+            float _startingTime = Time.time;
+            yield return _pathfinding.SearchPath(_lookAlgorithmSearching);
+            float _endingTime = Time.time;
 
             if (_pathfinding._found)
             {
-                Debug.Log("Path Found");
+                int ms = Mathf.RoundToInt((_endingTime - _startingTime) * 1000);
+
+                string lastingTime = ms + " ms";
+                if (ms >= 1000 && ms < 60000)
+                {
+                    lastingTime = Mathf.RoundToInt((ms / 1000f)) + " s (" + lastingTime + ")";
+                }
+
+                Debug.Log("Path Found in " + lastingTime);
 
                 // Mark path
                 L_Node current = _area._grid[end[0], end[1]];
@@ -92,10 +115,15 @@ public class B_Pathfinding_Grid : MonoBehaviour
         }
     }
 
-    public void StopSearching()
+    public void StopSearching(bool searching = false)
     {
-        StopCoroutine(FindPath());
-        _searching = false;
+        if (currentSearch != null)
+        {
+            StopCoroutine(currentSearch);
+            Debug.Log("Last search stopped");
+        }
+        currentSearch = null;
+        _searching = searching;
     }
 
 
@@ -105,12 +133,40 @@ public class B_Pathfinding_Grid : MonoBehaviour
 
         if (_pathfinding != null)
         {
+            // update _timeBetweenLoop
             _pathfinding._timeBetweenLoop = _timeBetweenLoop;
         }
 
-        if (_autoBuild && _buildGrid._nodeWorldSize > 0.01f)
+        if (_buildGrid._nodeWorldSize > 0.01f)
         {
-            if (!_searching)
+            // nodes not too small
+            if (_start != null && _end != null && _pathfinding != null)
+            {
+                int[] startingNode = _buildGrid.GetNodeOfWorldPostion(_start.position);
+                bool pointsMoved = !(_pathfinding._startingNode._gridPositionX == startingNode[0] && _pathfinding._startingNode._gridPositionY == startingNode[1]);
+                if (!pointsMoved)
+                {
+                    int[] endingNode = _buildGrid.GetNodeOfWorldPostion(_end.position);
+                    pointsMoved = !(_pathfinding._endingNode._gridPositionX == endingNode[0] && _pathfinding._endingNode._gridPositionY == endingNode[1]);
+                    if (pointsMoved)
+                    {
+                        _pathfinding._endX = endingNode[0];
+                        _pathfinding._endY = endingNode[1];
+                    }
+                }
+                else
+                {
+                    _pathfinding._startX = startingNode[0];
+                    _pathfinding._startY = startingNode[1];
+                }
+
+                if (pointsMoved)
+                {
+                    StopSearching();
+                }
+            }
+
+            if (currentSearch == null)
             {
                 // Build simple grid
                 BuildSimpleArea();
@@ -121,9 +177,11 @@ public class B_Pathfinding_Grid : MonoBehaviour
                 // Place start and end of path
                 PlaceStartAndEnd();
 
-                Debug.Log("Start searching");
-                // PathFinding
-                StartCoroutine(FindPath());
+                if (!_searching)
+                {
+                    // PathFinding
+                    currentSearch = StartCoroutine(FindPath());
+                }
             }
         }
 
@@ -145,10 +203,10 @@ public class B_Pathfinding_Grid : MonoBehaviour
                             Gizmos.color = Color.black;
                             break;
                         case L_NodeStates.START:
-                            Gizmos.color = Color.blue;
+                            Gizmos.color = Color.cyan;
                             break;
                         case L_NodeStates.END:
-                            Gizmos.color = Color.blue;
+                            Gizmos.color = Color.cyan;
                             break;
                         case L_NodeStates.PATH:
                             Gizmos.color = Color.blue;
