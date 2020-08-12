@@ -55,13 +55,21 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Grid.cs" />
-    <Compile Include="Assets\Scripts\BuildGrid.cs" />
-    <Compile Include="Assets\Scripts\Node.cs" />
-    <Compile Include="Assets\Scripts\BuildGrid_E.cs" />
-    <Compile Include="Assets\Scripts\GridDraw.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding_Astar.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding_Astar_E.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_Pathfinding_Astar.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_BuildGrid_E.cs" />
+    <Compile Include="Assets\Scripts\L_Pathfinding.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_GridDraw.cs" />
+    <Compile Include="Assets\Scripts\L_BuildGrid.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_Pathfinding_Astar_E.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_Grid.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_BuildGrid.cs" />
+    <Compile Include="Assets\Scripts\L_NodeStates.cs" />
+    <Compile Include="Assets\Scripts\L_Grid.cs" />
+    <Compile Include="Assets\Scripts\V1\V1_Node.cs" />
+    <Compile Include="Assets\Scripts\L_Node.cs" />
+    <Compile Include="Assets\Scripts\L_Pathfinding_Astar.cs" />
+    <Compile Include="Assets\Scripts\B_Pathfinding_Grid.cs" />
+    <Compile Include="Assets\Scripts\B_Pathfinding_Grid_E.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
