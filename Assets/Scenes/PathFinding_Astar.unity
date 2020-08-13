@@ -445,17 +445,16 @@ MonoBehaviour:
     _obtaclesPosition: []
     _obtaclesRadius: []
     _pathPoints:
-    - {x: 7.07, y: 3.92, z: -0}
-    - {x: -5.04, y: -3.96, z: 0}
+    - {x: 4.91, y: 4.15, z: 0}
+    - {x: -5.17, y: -4.19, z: -0}
   _unwalkableMaskFormObstacles:
     serializedVersion: 2
     m_Bits: 256
   _start: {fileID: 1351554202}
   _end: {fileID: 1866217145}
-  _lookAlgorithmSearching: 0
-  _timeBetweenLoop: 0.1
+  _lookAlgorithmSearching: 1
+  _timeBetweenLoop: 0.15
   _epsilon: 0.1
-  _autoBuild: 1
 --- !u!4 &506930391
 Transform:
   m_ObjectHideFlags: 0
@@ -1559,7 +1558,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351554198}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 6.97, y: 4.02, z: 0}
+  m_LocalPosition: {x: 4.91, y: 4.15, z: 0}
   m_LocalScale: {x: 0.5, y: 2, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2130,7 +2129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866217141}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5.04, y: -3.96, z: 0}
+  m_LocalPosition: {x: -5.17, y: -4.19, z: -0}
   m_LocalScale: {x: 0.5, y: 2, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}

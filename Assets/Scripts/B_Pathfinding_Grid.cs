@@ -113,6 +113,10 @@ public class B_Pathfinding_Grid : MonoBehaviour
                 _searching = false;
             }
         }
+        else
+        {
+            _pathfinding = null;
+        }
     }
 
     public void StopSearching(bool searching = false)

@@ -19,16 +19,18 @@ public class L_Pathfinding_Astar : L_Pathfinding
     public override IEnumerator SearchPath(bool lookAlgorithmSearching)
     {
         _searching = true;
-        // int _loop = 0;
+        int _loop = 0;
         while (_searching)
         {
-            // _loop++;
+            _loop++;
             _found = Algorithme();
             if (lookAlgorithmSearching)
             {
                 yield return new WaitForSeconds(_timeBetweenLoop);
             }
         }
+
+        Debug.Log("loop : " + _loop);
     }
 
     protected override bool Algorithme()
