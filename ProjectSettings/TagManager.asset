@@ -13,9 +13,9 @@ TagManager:
   - UI
   - 
   - 
-  - unwalkable
-  - 
-  - 
+  - unwalkableMaskForObstacles
+  - startMaskForPoint
+  - endMaskForPoint
   - 
   - 
   - 
