@@ -29,5 +29,10 @@ namespace Pathfinding_Astar
 
             return _x == c._x && _y == c._y;
         }
+
+        public override string ToString()
+        {
+            return "(" + _x + ", " + _y + ")";
+        }
     }
 }
