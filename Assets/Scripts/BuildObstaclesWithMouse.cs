@@ -11,7 +11,6 @@ namespace Pathfinding_Astar
         public ViewMap _viewMap; // _viewMap._cellSize
 
         Vector2 _ScreenSize = new Vector2(Screen.width, Screen.height);
-        MapPosition _mouseLastPose = new MapPosition(-1, -1);
         bool addCellsToObstacles = true;
 
         private void Start()
@@ -59,10 +58,6 @@ namespace Pathfinding_Astar
                         _map._notWalkableCells.Add(mousePose);
                     }
                     _viewMap.Reset();
-                }
-                else if (Input.GetMouseButtonUp(2))
-                {
-                    _mouseLastPose = new MapPosition(-1, -1);
                 }
             }
             
